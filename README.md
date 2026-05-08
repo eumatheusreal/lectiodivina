@@ -1,25 +1,27 @@
 # lectiodivina
 Site para ajudar na lectio divina
 
-## Ambiente base para `dev-cert-init`
+## Desenvolvimento em `https://localhost`
 
-Este repositório agora inclui uma configuração completa para gerar certificados de desenvolvimento de ponta a ponta com Docker Compose.
+O ambiente de desenvolvimento usa o `reverse-proxy-dev` com acesso via `localhost` e HTTPS.
+O certificado autoassinado é gerado pelo container `dev-cert-init`.
 
 ### Arquivos
-- `docker-compose.yml`
+- `docker-compose.dev.yml`
 - `docker/dev-cert-init/Dockerfile`
 - `scripts/dev-cert-init.sh`
+- `docker/nginx/nginx.dev.conf`
 
-### Subir o serviço
+### Subir ambiente de desenvolvimento
 ```bash
-docker compose up --build dev-cert-init
+docker compose -f docker-compose.dev.yml up --build
 ```
 
-Ao finalizar com sucesso, o container gera:
+Ao iniciar, o `dev-cert-init` gera:
 - `/certs/localhost.crt`
 - `/certs/localhost.key`
 
-Esses arquivos ficam persistidos no volume nomeado `dev-certs`.
+Esses arquivos ficam persistidos no volume nomeado `certs-dev` e são usados pelo Nginx.
 
 ### Variáveis suportadas
 - `CERT_DIR` (default: `/certs`)
