@@ -37,8 +37,9 @@ Este repositório contém uma **base estrutural segura** (scaffold) com:
 cp .env.example .env
 docker compose -f docker-compose.dev.yml up -d
 ```
-- Frontend: `http://localhost:3000`
-- Backend: `http://localhost:4000`
+- Acesso único via proxy HTTPS local: `https://localhost`
+- API via proxy: `https://localhost/api`
+- Observação: certificado local autoassinado (aceite o aviso do navegador no primeiro acesso).
 
 ## Produção/Teste (EC2)
 ```bash
@@ -77,3 +78,7 @@ mysql -h <rds-endpoint> -u$MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < backup
 - Configurar AWS Budget com alerta por e-mail.
 - Recursos com custo: EC2, EBS, snapshots, Elastic IP parado/desanexado.
 - Ao encerrar teste: `docker compose down`, parar instância e remover recursos não usados.
+
+
+## Versão do Node.js
+- Projeto fixado em **Node.js 22.15.1 (LTS)** nas imagens Docker de desenvolvimento e produção.
