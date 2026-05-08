@@ -1,0 +1,63 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "mysql" url = env("DATABASE_URL") }
+
+model User {
+  id           String @id @default(cuid())
+  name         String
+  email        String @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  lectios      Lectio[]
+  tags         Tag[]
+  refreshTokens RefreshToken[]
+}
+
+model Lectio {
+  id String @id @default(cuid())
+  userId String
+  title String
+  date DateTime
+  bibleReference String
+  bibleText String @db.Text
+  promises String @db.Text
+  commands String @db.Text
+  eternalPrinciples String @db.Text
+  meditation String @db.Text
+  prayer String @db.Text
+  practicalApplication String @db.Text
+  isFavorite Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lectioTags LectioTag[]
+  @@index([userId, date])
+}
+model Tag {
+  id String @id @default(cuid())
+  userId String
+  name String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lectioTags LectioTag[]
+  @@unique([userId, name])
+}
+model LectioTag {
+  lectioId String
+  tagId String
+  lectio Lectio @relation(fields: [lectioId], references: [id], onDelete: Cascade)
+  tag Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  @@id([lectioId, tagId])
+}
+model RefreshToken {
+  id String @id @default(cuid())
+  userId String
+  tokenHash String
+  familyId String
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, familyId])
+}
