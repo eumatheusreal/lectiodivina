@@ -29,7 +29,9 @@ services:
     image: node:22.15.1-alpine
     working_dir: /app
     command: sh -c "npm install && npm run dev"
-    volumes: ["./frontend:/app"]
+    volumes:
+      - ./frontend:/app
+      - frontend-node-modules:/app/node_modules
     expose: ["3000"]
     environment: ["NEXT_PUBLIC_API_URL=https://localhost/api"]
 
@@ -37,7 +39,9 @@ services:
     image: node:22.15.1-alpine
     working_dir: /app
     command: sh -c "npm install && npm run start:dev"
-    volumes: ["./backend:/app"]
+    volumes:
+      - ./backend:/app
+      - backend-node-modules:/app/node_modules
     expose: ["4000"]
     environment:
       DATABASE_URL: ${DATABASE_URL}
@@ -56,3 +60,5 @@ services:
 volumes:
   mysql-data:
   certs-dev:
+  frontend-node-modules:
+  backend-node-modules:

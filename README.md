@@ -88,3 +88,18 @@ A configuração já previne isso com:
 - script POSIX (`#!/bin/sh`);
 - instalação de `openssl` no Dockerfile;
 - validação explícita de `openssl` no script.
+
+
+### Troubleshooting do erro `EACCES` no `frontend`/`backend`
+Se aparecer erro de permissão em `node_modules` (ex.: `EACCES: permission denied, rename ...`),
+é porque o bind mount do código também está tentando reutilizar `node_modules` do host.
+
+A configuração de desenvolvimento já isola `node_modules` em volumes nomeados:
+- `frontend-node-modules` em `/app/node_modules`
+- `backend-node-modules` em `/app/node_modules`
+
+Para limpar estado antigo e subir novamente:
+```bash
+docker compose -f docker-compose.dev.yml down -v
+docker compose -f docker-compose.dev.yml up --build
+```
