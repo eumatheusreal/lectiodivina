@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "next": "^15.3.2",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.8",
+    "next": "^16.2.6",
+    "react": "^19.2.6",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.2.6"
   },
   "devDependencies": {
     "@types/node": "^22.15.21",
@@ -17,5 +20,8 @@
     "build": "next build",
     "start": "next start -p 3000",
     "test": "echo \"configure frontend tests (Playwright/Jest)\""
+  },
+  "overrides": {
+    "postcss": "8.5.10"
   }
 }
