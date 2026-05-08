@@ -1,16 +1,13 @@
 services:
   dev-cert-init:
-    image: alpine:3.21.3
+    build:
+      context: .
+      dockerfile: docker/dev-cert-init/Dockerfile
+    environment:
+      CERT_DIR: /certs
+      DOMAIN: localhost
     volumes:
       - certs-dev:/certs
-    command: >
-      sh -c "
-      if [ ! -f /certs/dev.crt ] || [ ! -f /certs/dev.key ]; then
-        apk add --no-cache openssl >/dev/null 2>&1 &&
-        openssl req -x509 -nodes -newkey rsa:2048 -days 365
-        -keyout /certs/dev.key -out /certs/dev.crt
-        -subj '/CN=localhost';
-      fi"
 
   reverse-proxy-dev:
     image: nginx:1.27.5-alpine
