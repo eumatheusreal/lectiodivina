@@ -1,0 +1,13 @@
+services:
+  dev-cert-init:
+    build:
+      context: .
+      dockerfile: docker/dev-cert-init/Dockerfile
+    environment:
+      CERT_DIR: /certs
+      DOMAIN: localhost
+    volumes:
+      - dev-certs:/certs
+
+volumes:
+  dev-certs:
